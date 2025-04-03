@@ -1,25 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Provider } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import SignUp from './components/SignUp';
+import SignIn from './components/SignIn';
 
-function App() {
+
+// Create a simple auth slice
+//const authSlice = (state = { user: { _id: 'temp-user', username: 'tester' } }, action) => state;
+
+// Configure store
+// const store = configureStore({
+//   reducer: {
+//     auth: authSlice
+//   }
+// });
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<h1>Welcome to Wordwave</h1>} />
+            <Route path='/signup' element={<SignUp />}/>
+            <Route path='/signin' element={<SignIn />}/>
+          </Routes>
+        </div>
+      </Router>
   );
-}
+};
 
 export default App;
