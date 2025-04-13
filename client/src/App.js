@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
+import Logout from './components/Logout';
 
 
 // Create a simple auth slice
@@ -24,7 +25,7 @@ const App = () => {
             <Route path="/" element={<h1>Welcome to Wordwave</h1>} />
             <Route path='/signup' element={<SignUp />}/>
             <Route path='/signin' element={<SignIn />}/>
-            <Route path='/logout' element={<SignIn />}/>
+            <Route path='/logout' element={<Logout />}/>
           </Routes>
         </div>
       </Router>

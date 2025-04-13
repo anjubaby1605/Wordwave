@@ -1,23 +1,21 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const Logout = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Dispatch logout action
-    dispatch({ type: 'LOGOUT' });
-    
-    // Remove token from localStorage if you're using it
+    // Clear token and any other stored user data
     localStorage.removeItem('token');
-    
-    // Redirect to home page
-    navigate('/signin');
-  }, [dispatch, navigate]);
 
-  return <div>Logging out...</div>;
+    // Optional: call logout endpoint if your backend supports it
+    // await axios.post('/logout'); 
+
+    // Redirect to sign-in page
+    navigate('/signin');
+  }, [navigate]);
+
+  return null; // or return a spinner/loading state
 };
 
 export default Logout;
