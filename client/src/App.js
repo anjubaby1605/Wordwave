@@ -24,6 +24,7 @@ const App = () => {
             <Route path="/" element={<h1>Welcome to Wordwave</h1>} />
             <Route path='/signup' element={<SignUp />}/>
             <Route path='/signin' element={<SignIn />}/>
+            <Route path='/logout' element={<SignIn />}/>
           </Routes>
         </div>
       </Router>
