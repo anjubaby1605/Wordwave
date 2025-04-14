@@ -9,6 +9,10 @@ import StoryPage from './pages/StoryPage';
 import { configureStore } from '@reduxjs/toolkit';
 import UserActivity from './components/logs/UserActivity';
 import StoryEditor from './components/stories/StoryEditor';
+import Register from './pages/home.js';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Terms from './pages/Terms';
 
 
 
@@ -28,10 +32,16 @@ const App = () => {
       <Router>
         <div className="App">
           <Routes>
-            <Route path="/" element={<h1>Welcome to Wordwave</h1>} />
+            
+            
+            <Route path="/" element={<Register />} />   {/* Home or main page */}
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/terms" element={<Terms />} />
+            
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
 
-            <Route path='/signup' element={<SignUp />}/>
-            <Route path='/signin' element={<SignIn />}/>
 
             <Route path="/story-page" element={<StoryPage />} />
             <Route path="/stories" element={<StoryList />} />
@@ -46,3 +56,4 @@ const App = () => {
 };
 
 export default App;
+
