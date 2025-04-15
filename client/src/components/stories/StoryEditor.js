@@ -12,7 +12,9 @@ const StoryEditor = () => {
     title: '',
     content: '',
     tags: [],
-    snapshots: []
+    snapshots: [],
+    isLocked : false,
+    lockedBy: null
   });
   const [newTag, setNewTag] = useState('');
 
@@ -22,15 +24,20 @@ const StoryEditor = () => {
         if (storyId) {
           const response = await getStory(storyId);
           const currentUserId = localStorage.getItem('userId');
+          const isUserLoggedIn = !!currentUserId;
     
           setStory({
             title: response.title || '',
             content: response.content || '',
             tags: response.tags || [],
-            snapshots: response.snapshots || []
+            snapshots: response.snapshots || [],
+            isLocked: response.isLocked,
+            lockedBy: response.lockedBy
           });
-  
-          if (response.isLocked && response.lockedBy !== currentUserId) {
+    
+          if (!isUserLoggedIn) {
+            setIsReadOnly(true); // Force read-only for guests
+          } else if (response.isLocked && response.lockedBy !== currentUserId) {
             setIsReadOnly(true);
           } else {
             try {
@@ -42,22 +49,31 @@ const StoryEditor = () => {
             }
           }
         }
+    
         setIsLoading(false);
       } catch (err) {
         console.error('Failed to fetch story:', err);
         navigate('/');
       }
     };
-  
     fetchStory();
   
     const handleUnlockStory = async () => {
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+    
+      if (!token || !userId || !story?.isLocked || story.lockedBy !== userId) {
+        return;
+      }
+    
       try {
-        await unlockStory(storyId);
+        await unlockStory(storyId); 
       } catch (err) {
         console.warn('Failed to unlock the story:', err);
       }
     };
+    
+    
   
     window.addEventListener('beforeunload', handleUnlockStory);
   
@@ -150,6 +166,11 @@ const StoryEditor = () => {
           <h2>{storyId ? 'Edit Story' : 'Create Story'}</h2>
         </div>
         <div className="card-body">
+        {isReadOnly && !localStorage.getItem('userId') && (
+            <div className="alert alert-warning">
+              <strong>Note:</strong> Only logged-in users can edit this story.
+            </div>
+        )}
           <form onSubmit={handleSave}>
             <div className="mb-3">
               <label className="form-label">Title</label>

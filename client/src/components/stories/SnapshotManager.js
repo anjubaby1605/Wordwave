@@ -130,12 +130,10 @@ const SnapshotManager = ({ storyId, snapshots = [], onSnapshotsChange }) => {
         <button 
           onClick={handleAddSnapshot}
           className="btn btn-sm btn-primary"
-        >
-          Add Snapshot
+        >  Add Snapshot
         </button>
       </div>
 
-      {/* Snapshots List */}
       <div className="snapshots-list">
         {snapshots.map(snapshot => (
           <div key={snapshot._id} className="card mb-2">
@@ -143,7 +141,6 @@ const SnapshotManager = ({ storyId, snapshots = [], onSnapshotsChange }) => {
               <h5>{snapshot.title}</h5>
               <p>{snapshot.content}</p>
 
-              {/* Show image if exists */}
               {snapshot.preview && (
                 <img
                   src={snapshot.preview}
@@ -152,7 +149,6 @@ const SnapshotManager = ({ storyId, snapshots = [], onSnapshotsChange }) => {
                 />
               )}
 
-              {/* Links */}
               {snapshot.links?.map((link, idx) => (
                 <div key={idx}>
                   <a href={link.url} target="_blank" rel="noopener noreferrer">

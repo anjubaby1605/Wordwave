@@ -107,7 +107,7 @@ const Home = () => {
 const StoryCard = ({ story }) => {
   const token = localStorage.getItem('token');
   const storyRoute = token 
-    ? `/stories/auth/${story._id}` 
+    ? `/stories/${story._id}` 
     : `/stories/public/${story._id}`;
 
   return (
