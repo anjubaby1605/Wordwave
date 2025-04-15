@@ -96,12 +96,14 @@ const StoryEditor = () => {
       snapshots: story.snapshots.map(s => ({
         title: s.title,
         content: s.content,
-        links: s.links || []
+        links: s.links || [],
+        image : s.image || null
       }))
     };
   
     try {
       const token = localStorage.getItem('token');
+      console.log("Story data-", storyData);
       if (storyId) {
         await updateStory(storyId, storyData);
         navigate(`/stories/${storyId}`);
@@ -258,7 +260,7 @@ const StoryEditor = () => {
                 Cancel
               </button>
               <div>
-                {storyId && (
+                {storyId && !isReadOnly && (
                   <Link 
                     to={`/stories/${storyId}/userlogs`}
                     className="btn btn-outline-info me-2"

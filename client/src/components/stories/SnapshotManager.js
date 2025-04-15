@@ -56,10 +56,12 @@ const SnapshotManager = ({ storyId, snapshots = [], onSnapshotsChange }) => {
     setNewSnapshot({ title: '', content: '', links: [], image: null, preview: null });
   };
 
-  const handleDeleteSnapshot = (id) => {
-    const updatedSnapshots = snapshots.filter(snap => snap.id !== id);
+  const handleDeleteSnapshot = (idToDelete) => {
+    const updatedSnapshots = snapshots.filter(
+      (snap) => snap.id !== idToDelete && snap._id !== idToDelete
+    );
     onSnapshotsChange(updatedSnapshots);
-  };
+  };  
 
   return (
     <div className="snapshot-manager">
@@ -136,7 +138,7 @@ const SnapshotManager = ({ storyId, snapshots = [], onSnapshotsChange }) => {
 
       <div className="snapshots-list">
         {snapshots.map(snapshot => (
-          <div key={snapshot._id} className="card mb-2">
+          <div key={snapshot._id || snapshot.id} className="card mb-2">
             <div className="card-body">
               <h5>{snapshot.title}</h5>
               <p>{snapshot.content}</p>
@@ -156,13 +158,12 @@ const SnapshotManager = ({ storyId, snapshots = [], onSnapshotsChange }) => {
                   </a>
                 </div>
               ))}
-
-              <button
-                onClick={() => handleDeleteSnapshot(snapshot.id)}
-                className="btn btn-sm btn-danger mt-2"
-              >
-                Delete
-              </button>
+            <button
+              onClick={() => handleDeleteSnapshot(snapshot._id || snapshot.id)}
+              className="btn btn-sm btn-danger mt-2"
+            >
+              Delete
+            </button>
             </div>
           </div>
         ))}

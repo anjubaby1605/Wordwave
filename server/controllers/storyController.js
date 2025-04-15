@@ -22,9 +22,6 @@ const handleTransaction = async (res, transactionFn) => {
 
 // Create story with snapshots
 exports.createStory = async (req, res) => {
-  // console.log('📥 Received request in createStory controller');
-  // console.log('👉 req.user:', req.user);
-  // console.log('👉 req.body:', req.body);
   await handleTransaction(res, async (session) => {
     const { title, content, tags, snapshots } = req.body;
     // 1. Create story
@@ -44,7 +41,7 @@ exports.createStory = async (req, res) => {
         order: index,
         createdBy: req.user.id
       })), 
-      { session }
+      { session, ordered: true }
     );
 
     // 3. Link snapshots to story
@@ -140,39 +137,49 @@ exports.updateStory = async (req, res) => {
   try {
     const { title, content, tags, snapshots } = req.body;
 
-    // First, find and update the story
-    const updatedStory = await Story.findByIdAndUpdate(req.params.id, {
-      title,
-      content,
-      tags
-    }, { new: true }); // The `new: true` option returns the updated document
+    // First, find and update the story (basic fields)
+    const updatedStory = await Story.findByIdAndUpdate(
+      req.params.id,
+      { title, content, tags },
+      { new: true }
+    );
 
     if (!updatedStory) {
       return res.status(404).json({ message: 'Story not found' });
     }
 
-    // Now, handle the snapshots
+    const snapshotIds = [];
+
+    // Now handle the snapshots (create or update individually)
     for (let snapshot of snapshots) {
       if (snapshot._id) {
         // Update existing snapshot
         await Snapshot.findByIdAndUpdate(snapshot._id, snapshot);
+        snapshotIds.push(snapshot._id);
       } else {
-        // Create a new snapshot if there's no _id
+        // Create new snapshot
         const newSnapshot = new Snapshot({
-          story: updatedStory._id, // Link snapshot to updated story
+          story: updatedStory._id,
           ...snapshot
         });
-        await newSnapshot.save();
+        const savedSnap = await newSnapshot.save();
+        snapshotIds.push(savedSnap._id);
       }
     }
 
-    // Return the updated story along with its snapshots
-    res.status(200).json(updatedStory);
+    // Optional: update the story's snapshot references if necessary
+    updatedStory.snapshots = snapshotIds;
+    await updatedStory.save();
+
+    const populatedStory = await Story.findById(updatedStory._id).populate('snapshots');
+
+    res.status(200).json(populatedStory);
   } catch (error) {
     console.error('Error updating story:', error);
     res.status(500).json({ message: 'Error updating story', error: error.message });
   }
 };
+
 
 
 // Get activity logs
