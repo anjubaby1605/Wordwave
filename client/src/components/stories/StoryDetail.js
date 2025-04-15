@@ -12,7 +12,7 @@ const StoryDetail = () => {
     const fetchStory = async () => {
       try {
         const response = await getStory(id);
-        console.log('API Response:', response); // Debug log
+       // console.log('API Response:', response);
         
         // Directly use the response since it's the story object
         if (response) {
