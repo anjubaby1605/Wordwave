@@ -21,7 +21,8 @@ const Home = () => {
     const fetchStories = async () => {
       try {
         const response = await getStories();
-        setStories(response);
+        const shuffled = shuffleArray(response); // shuffle here
+        setStories(shuffled);
       } catch (error) {
         console.error('Failed to fetch stories:', error);
       }
@@ -89,7 +90,7 @@ const Home = () => {
 
         <div className="stories-grid">
           {stories.length > 0 ? (
-            shuffleArray(stories).slice(0, 6).map(story => (
+            stories.slice(0, 6).map(story => (
               <StoryCard key={story._id} story={story} />
             ))
           ) : (
