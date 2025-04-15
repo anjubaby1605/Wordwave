@@ -4,54 +4,48 @@ import logo from './logo.png';
 import userIcon from './usericon.png';
 import './home.css';
 import Footer from './Footer.js';
+import { getStories } from '../api/storyApi.js';
 
-const sampleStories = [
-  {
-    id: 1,
-    title: 'Sample Story 1',
-    preview: 'This is a preview of the first sample story...',
-    fullStory: 'This is the full story of the first sample story. It has more content...',
-    tags: ['fantasy', 'adventure']
-  },
-  {
-    id: 2,
-    title: 'Sample Story 2',
-    preview: 'This is a preview of the second sample story...',
-    fullStory: 'This is the full story of the second sample story. It has more content...',
-    tags: ['sci-fi', 'future']
-  },
-  {
-    id: 3,
-    title: 'Sample Story 3',
-    preview: 'This is a preview of the third sample story...',
-    fullStory: 'This is the full story of the third sample story. It has more content...',
-    tags: ['mystery', 'detective']
-  },
-  {
-    id: 4,
-    title: 'Sample Story 4',
-    preview: 'This is a preview of the fourth sample story...',
-    fullStory: 'This is the full story of the fourth sample story. It has more content...',
-    tags: ['adventure', 'action']
-  },
-];
-
-const Register = () => {
+const Home = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [stories, setStories] = useState([]); // state for real stories
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token); // true if token exists
+    setIsLoggedIn(!!token);
   }, []);
+
+  useEffect(() => {
+    const fetchStories = async () => {
+      try {
+        const response = await getStories();
+        setStories(response);
+      } catch (error) {
+        console.error('Failed to fetch stories:', error);
+      }
+    };
+
+    fetchStories();
+  }, []);
+
+  // Shuffle stories randomly
+  const shuffleArray = (array) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap
+    }
+    return shuffled;
+  };
 
   const toggleDropdown = () => {
     setDropdownOpen(prev => !prev);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // clear token
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
     navigate('/signin');
   };
@@ -94,9 +88,13 @@ const Register = () => {
         </div>
 
         <div className="stories-grid">
-          {sampleStories.map(story => (
-            <StoryCard key={story.id} story={story} />
-          ))}
+          {stories.length > 0 ? (
+            shuffleArray(stories).slice(0, 6).map(story => (
+              <StoryCard key={story._id} story={story} />
+            ))
+          ) : (
+            <p>Loading stories...</p>
+          )}
         </div>
       </main>
 
@@ -105,14 +103,22 @@ const Register = () => {
   );
 };
 
+
 const StoryCard = ({ story }) => {
+  const token = localStorage.getItem('token');
+  const storyRoute = token 
+    ? `/stories/auth/${story._id}` 
+    : `/stories/public/${story._id}`;
+
   return (
     <div className="story-card">
       <h3>{story.title}</h3>
       <p className="preview">{story.preview}</p>
-      <Link to={`/story/${story.id}`} className="read-more-link">Read More</Link>
+
+      <Link to={storyRoute} className="read-more-link">Read More</Link>
+
       <div className="tags">
-        {story.tags.map(tag => (
+        {story.tags && story.tags.map(tag => (
           <span key={tag} className="tag">{tag}</span>
         ))}
       </div>
@@ -120,4 +126,5 @@ const StoryCard = ({ story }) => {
   );
 };
 
-export default Register;
+
+export default Home;

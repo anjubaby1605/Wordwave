@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { createStory, getStory, updateStory } from '../../api/storyApi';
+import { createStory, getStory, lockStory, updateStory, unlockStory} from '../../api/storyApi';
 import SnapshotManager from './SnapshotManager';
 
 const StoryEditor = () => {
   const { id: storyId } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(!!storyId);
+  const [isReadOnly, setIsReadOnly] = useState(false);
   const [story, setStory] = useState({
     title: '',
     content: '',
@@ -20,13 +21,26 @@ const StoryEditor = () => {
       try {
         if (storyId) {
           const response = await getStory(storyId);
-          console.log("Story editor-", response);
+          const currentUserId = localStorage.getItem('userId');
+    
           setStory({
             title: response.title || '',
             content: response.content || '',
             tags: response.tags || [],
-            snapshots: response.snapshots || []  // Ensure snapshots exists
+            snapshots: response.snapshots || []
           });
+  
+          if (response.isLocked && response.lockedBy !== currentUserId) {
+            setIsReadOnly(true);
+          } else {
+            try {
+              await lockStory(storyId);
+              setIsReadOnly(false);
+            } catch (err) {
+              console.warn('Could not lock the story:', err);
+              setIsReadOnly(true);
+            }
+          }
         }
         setIsLoading(false);
       } catch (err) {
@@ -34,9 +48,26 @@ const StoryEditor = () => {
         navigate('/');
       }
     };
-
+  
     fetchStory();
+  
+    const handleUnlockStory = async () => {
+      try {
+        await unlockStory(storyId);
+      } catch (err) {
+        console.warn('Failed to unlock the story:', err);
+      }
+    };
+  
+    window.addEventListener('beforeunload', handleUnlockStory);
+  
+    return () => {
+      handleUnlockStory();
+      window.removeEventListener('beforeunload', handleUnlockStory);
+    };
+  
   }, [storyId, navigate]);
+  
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -54,11 +85,12 @@ const StoryEditor = () => {
     };
   
     try {
+      const token = localStorage.getItem('token');
       if (storyId) {
         await updateStory(storyId, storyData);
         navigate(`/stories/${storyId}`);
       } else {
-        await createStory(storyData);
+        await createStory(storyData,token);
         navigate('/stories');
       }
     } catch (err) {
@@ -66,13 +98,21 @@ const StoryEditor = () => {
       alert(err.message || 'Failed to save story');
     }
   };
-  const handleCancel = () => {
+  const handleCancel = async () => {
     if (storyId) {
-      navigate(`/stories/${storyId}`); // Go back to view
+      await fetch(`/api/stories/${storyId}/unlock`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      navigate(`/stories/${storyId}`);
     } else {
-      navigate('/stories'); // Go to list if creating new
+      navigate('/stories');
     }
   };
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -120,6 +160,7 @@ const StoryEditor = () => {
                 value={story.title}
                 onChange={handleInputChange}
                 required
+                disabled={isReadOnly}
               />
             </div>
 
@@ -132,6 +173,7 @@ const StoryEditor = () => {
                 value={story.content}
                 onChange={handleInputChange}
                 required
+                disabled={isReadOnly}
               />
             </div>
 
@@ -183,6 +225,7 @@ const StoryEditor = () => {
             <button 
                   type="submit" 
                   className="btn btn-primary"
+                  disabled={isReadOnly}
                 >
                   Save Story
                 </button>

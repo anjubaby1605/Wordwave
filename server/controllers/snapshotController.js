@@ -1,27 +1,31 @@
 exports.addSnapshot = async (req, res) => {
-    try {
-      const { storyId } = req.params;
-      const { text, order, links } = req.body;
-  
-      const story = await Story.findByIdAndUpdate(
-        storyId,
-        {
-          $push: {
-            snapshots: {
-              text,
-              order,
-              links: links || []
-            }
+  try {
+    const { storyId } = req.params;
+    const { title, content, order, links } = req.body;
+    const image = req.file ? `/uploads/${req.file.filename}` : null;
+
+    const story = await Story.findByIdAndUpdate(
+      storyId,
+      {
+        $push: {
+          snapshots: {
+            title,
+            content,
+            order,
+            links: links ? JSON.parse(links) : [],
+            image
           }
-        },
-        { new: true, runValidators: true }
-      );
-  
-      res.status(201).json(story.snapshots);
-    } catch (err) {
-      res.status(400).json({ error: err.message });
-    }
-  };
+        }
+      },
+      { new: true, runValidators: true }
+    );
+
+    res.status(201).json(story.snapshots);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
   
   exports.updateSnapshot = async (req, res) => {
     try {
@@ -37,8 +41,8 @@ exports.addSnapshot = async (req, res) => {
           $set: {
             'snapshots.$.text': update.text,
             'snapshots.$.order': update.order,
-            'snappackage.$.links': update.links
-          }
+            'snapshots.$.links': update.links
+          }          
         },
         { new: true, runValidators: true }
       );

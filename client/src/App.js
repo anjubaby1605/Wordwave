@@ -9,7 +9,7 @@ import StoryPage from './pages/StoryPage';
 import { configureStore } from '@reduxjs/toolkit';
 import UserActivity from './components/logs/UserActivity';
 import StoryEditor from './components/stories/StoryEditor';
-import Register from './pages/home.js';
+import Home from './pages/home.js';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Terms from './pages/Terms';
@@ -35,7 +35,7 @@ const App = () => {
           <Routes>
             
             
-            <Route path="/" element={<Register />} />   {/* Home or main page */}
+            <Route path="/" element={<Home />} />   {/* Home or main page */}
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
@@ -47,6 +47,7 @@ const App = () => {
             <Route path="/story-page" element={<StoryPage />} />
             <Route path="/stories" element={<StoryList />} />
             <Route path="/stories/:id" element={<StoryDetail />} />
+            <Route path="/stories/public/:id" element={<StoryDetail />} />
             <Route path="/stories/:id/edit" element={<StoryEditor />} />
             <Route path="/stories/:id/userlogs" element={<UserActivity />} />
           </Routes>
