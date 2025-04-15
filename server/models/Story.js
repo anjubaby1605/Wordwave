@@ -8,12 +8,12 @@ const storySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Snapshot' 
   }],
-  // createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  // lastEditedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  // isLocked: { type: Boolean, default: false },
-  // lockedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  // createdAt: { type: Date, default: Date.now },
-  // updatedAt: { type: Date, default: Date.now }
+   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+   lastEditedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+   isLocked: { type: Boolean, default: false },
+   lockedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+   createdAt: { type: Date, default: Date.now },
+   updatedAt: { type: Date, default: Date.now }
 });
 
 storySchema.pre('save', function(next) {

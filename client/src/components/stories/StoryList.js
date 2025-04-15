@@ -29,8 +29,8 @@ const StoryList = () => {
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>All Stories</h2>
-        <Link to="/story-page" className="btn btn-primary">
-          Create New Story
+        <Link to="/" className="btn btn-primary d-flex justify-content-center align-items-center" style={{ width: '100px', height: '50px' }}>
+        <i className="bi bi-house-door"></i>
         </Link>
       </div>
 

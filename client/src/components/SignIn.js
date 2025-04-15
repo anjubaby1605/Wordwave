@@ -74,6 +74,7 @@ const SignIn = () => {
 
         // Store the token in localStorage
         localStorage.setItem('token', data.token);
+        console.log("Signin page toekn- ",data.token);
         
         // Redirect to home page or dashboard
         navigate('/');

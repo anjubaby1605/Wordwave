@@ -52,14 +52,22 @@ const StoryDetail = () => {
           <pre className="card-text" style={{ whiteSpace: 'pre-wrap' }}>
             {story.content}
           </pre>
-          <div className="mt-3">
-            <Link to={`/stories/${id}/edit`} className="btn btn-warning me-2">
-              Edit Story
-            </Link>
-            <Link to="/stories" className="btn btn-secondary">
-              Back to Stories
-            </Link>
-          </div>
+          <div className="mt-3 d-flex flex-wrap align-items-center gap-2">
+          <Link to={`/stories/${id}/edit`} className="btn btn-warning">
+            Edit Story
+          </Link>
+          <Link to="/stories" className="btn btn-secondary">
+            Back to Stories
+          </Link>
+          <Link
+            to="/"
+            className="btn btn-primary d-flex justify-content-center align-items-center"
+            style={{ width: '50px', height: '38px' }}
+            title="Home"
+          >
+            <i className="bi bi-house-door fs-4"></i>
+          </Link>
+        </div>
         </div>
       </div>
     </div>
