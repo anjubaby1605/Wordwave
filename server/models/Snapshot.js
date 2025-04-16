@@ -12,7 +12,7 @@ const snapshotSchema = new mongoose.Schema({
     url: { type: String},
     description: String
   }],
-  image: { type: String },
+  image: { type: String, default: null },
   order: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now }
 });
