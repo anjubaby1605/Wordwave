@@ -14,6 +14,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Terms from './pages/Terms';
 import Logout from './components/Logout';
+import MyStories from './pages/MyStories'; // Adjust the path if needed
 
 
 
@@ -43,6 +44,7 @@ const App = () => {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path='/logout' element={<Logout />}/>
+            <Route path="/mystories" element={<MyStories />} />
 
             <Route path="/story-page" element={<StoryPage />} />
             <Route path="/stories" element={<StoryList />} />

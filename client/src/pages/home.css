@@ -182,10 +182,10 @@ html, body, #root {
 
 .read-more-container {
   display: flex;
-  justify-content: center;  /* Center the button horizontally */
-  align-items: center;      /* Center the button vertically (optional) */
-  margin-top: 40px;
-} 
+  justify-content: center;
+  margin-top: 20px;
+}
+
 
 
 .read-more-btn {

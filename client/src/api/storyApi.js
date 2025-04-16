@@ -93,4 +93,16 @@ export const unlockStory = async (storyId) => {
     throw error;
   }
 };
+// In your API file (e.g., api.js or storiesApi.js)
+export const getMyStories = async () => {
+  try {
+    const response = await api.get('/stories/user/mystories');
+    return response.data;
+  } catch (error) {
+    console.error('Error in getMyStories:', error);
+    throw error;
+  }
+};
+
+
 
