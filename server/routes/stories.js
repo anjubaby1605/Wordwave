@@ -33,6 +33,7 @@ router.get('/', storyController.getStories);
 router.get('/:id',auth,activityLogger('view'), storyController.getStory);
 router.get('/public/:id', activityLogger('view'), storyController.getStory); 
 
+
 // @route   PUT api/stories/:id
 // @desc    Update story
 // @access  Private
