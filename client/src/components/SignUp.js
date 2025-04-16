@@ -130,73 +130,91 @@ const SignUp = () => {
   };
 
   return (
-    <div className="auth-container">
-      <h2>Create an Account</h2>
-      {successMessage && <div className="success-message">{successMessage}</div>}
-      {errors.form && <div className="error-message">{errors.form}</div>}
-      
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleInputChange}
-            placeholder="Enter username"
-          />
-          {errors.username && <span className="error">{errors.username}</span>}
+      <div className="container">
+        <div className="row justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+          <div className="col-md-8">
+            <div className="card flex-row shadow-lg rounded p-4">
+              <div className="col-md-6 d-flex align-items-center justify-content-center">
+                <img 
+                  src="/image/39879138_8767132.jpg" 
+                  alt="Illustration" 
+                  className="img-fluid rounded"
+                  style={{ maxHeight: '300px' }}
+                />
+              </div>
+              
+              <div className="col-md-6 px-3">
+                  <h2>Create an Account</h2>
+                  {successMessage && <div className="success-message">{successMessage}</div>}
+                  {errors.form && <div className="error-message">{errors.form}</div>}
+                  
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-group mt-3">
+                      <label htmlFor="username">Username</label>
+                      <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleInputChange}
+                        placeholder="Enter username"
+                      />
+                      {errors.username && <span className="error">{errors.username}</span>}
+                    </div>
+                    
+                    <div className="form-group">
+                      <label htmlFor="email">Email</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="Enter email"
+                      />
+                      {errors.email && <span className="error">{errors.email}</span>}
+                    </div>
+                    
+                    <div className="form-group">
+                      <label htmlFor="password">Password</label>
+                      <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        placeholder="Enter password"
+                      />
+                      {errors.password && <span className="error">{errors.password}</span>}
+                    </div>
+                    
+                    <div className="form-group">
+                      <label htmlFor="confirmPassword">Confirm Password</label>
+                      <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleInputChange}
+                        placeholder="Confirm password"
+                      />
+                      {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
+                    </div>
+                    
+                    <button type="submit" disabled={isSubmitting}>
+                      {isSubmitting ? 'Signing Up...' : 'Sign Up'}
+                    </button>
+                  </form>
+                  
+                  <div className="auth-footer">
+                    Already have an account? <Link to="/signin">Sign In</Link>
+                  </div>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            placeholder="Enter email"
-          />
-          {errors.email && <span className="error">{errors.email}</span>}
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            placeholder="Enter password"
-          />
-          {errors.password && <span className="error">{errors.password}</span>}
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-            placeholder="Confirm password"
-          />
-          {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
-        </div>
-        
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Signing Up...' : 'Sign Up'}
-        </button>
-      </form>
-      
-      <div className="auth-footer">
-        Already have an account? <Link to="/signin">Sign In</Link>
       </div>
-    </div>
+
   );
 };
 

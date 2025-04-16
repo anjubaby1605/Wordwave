@@ -7,8 +7,10 @@ const StoryPage = () => {
   };
 
   return (
-    <div className="story-page">
-      <h1>Create a Story</h1>
+    <div className="story-page" 
+    >
+      <h1>Word Wave</h1>
+      <p>CREATE. BUILD. READ</p> 
       <StoryEditor/>
     </div>
   );

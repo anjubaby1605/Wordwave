@@ -1,0 +1,179 @@
+.story-page{
+    background-color:  #a8dadc;
+    min-height: 100vh;
+    padding: 1rem;
+} 
+.story-page h1{
+    color: #0a309a;
+}
+.cardstory{
+    position: relative;
+    background: #ffffff;
+    background-color: rgba(147, 89, 255, 0.2);
+    backdrop-filter: blur(20px);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    
+}
+
+.card-header h2{
+    color: #0a309a;
+}
+.card1, .card2 {
+    background-color: #fcd5ce;
+    border-radius: 1.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    
+   
+}
+
+.card1 h3, .card2 h4 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.custom-save-btn{
+    background-color: #000000;
+    color: white;
+   
+}
+.custom-cancel-btn{
+    background-color: #0a84ff;
+    color: white;
+   
+}
+.custom-cancel-btn:hover{
+    background-color: #fcd5ce;
+    color: white;
+   
+}
+.form-control{
+    border-radius: 1rem ;
+}
+.custom-tag-btn{
+
+    background-color: #000000;
+}
+.custom-snap-btn{
+    background-color: #000000;
+}
+
+.card1-body {
+    padding: 1rem;
+    background-color: #fcd5ce;
+    border-radius: 4px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+.custom-create-btn {
+    background-color: #000000;
+    color: white;
+    padding: 0.3rem 0.6rem;  /* Smaller padding */
+    font-size: 1.5rem;       /* Smaller font */
+    font-weight: 500;
+    border-radius: 4px;
+    
+}
+.card-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.custom-yellow {
+    background-color: #fff9c4 !important; /* Light Yellow */
+  }
+  
+  .custom-blue {
+    background-color: #a8dadc !important; /* Light Blue */
+  }
+  
+  .custom-green {
+    background-color: #c8e6c9 !important; /* Light Green */
+  }
+.custom-pink {
+    background-color: #fcd5ce !important; /* Light Green */
+}
+  .custom-read-btn {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+  }
+  
+  .card-text {
+    font-size: 0.95rem;
+  }
+.warning{
+    color: rgb(146, 4, 4);
+}
+.alert-warning{
+    color: rgb(146, 4, 4);
+}
+.custom-edit-btn {
+    background-color: #000000; /* Button color */
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 1rem; /* Add margin to the right of the Edit button */
+  }
+  
+  .custom-back-btn {
+    background-color: #000000; /* Button color */
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .custom-edit-btn:hover, .custom-back-btn:hover {
+    background-color: #444; /* Lighter shade for hover effect */
+  }
+  .editor-wrapper {
+    position: relative;
+  }
+
+  
+  .editor-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px 0 0; /* Reduced top padding for upward shift */
+    position: relative;
+  }
+  
+  .home-button {
+    width: 42px;
+    height: 42px;
+    margin-top: -100px; /* Push it up further */
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+  .custom-link-btn {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    border: none;
+    background-color: #0a84ff;
+    color: #333;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s;
+  }
+  
+  .custom-link-btn:hover {
+    background-color: #3d5c8b;
+  }
+  

@@ -16,8 +16,6 @@ import Terms from './pages/Terms';
 import Logout from './components/Logout';
 import MyStories from './pages/MyStories'; // Adjust the path if needed
 
-
-
 //Create a simple auth slice
 const authSlice = (state = { user: { _id: 'temp-user', username: 'tester' } }, action) => state;
 
@@ -34,8 +32,6 @@ const App = () => {
       <Router>
         <div className="App">
           <Routes>
-            
-            
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />

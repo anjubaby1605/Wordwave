@@ -1,6 +1,12 @@
-.App {
-  text-align: center;
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff; /* neutral, lets hero image show properly */
+
+  
+  height: 100%;
 }
+
 
 .App-logo {
   height: 40vmin;

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { createStory, getStory, lockStory, updateStory, unlockStory} from '../../api/storyApi';
 import SnapshotManager from './SnapshotManager';
-//import { lockStory, unlockStory } from '../../api/storyApi';
-
+import './StoryEditor.css';
 
 const StoryEditor = () => {
   const { id: storyId } = useParams();
@@ -163,26 +162,35 @@ const StoryEditor = () => {
   }
 
   return (
+    <div className="editor-wrapper">
+    <div className="editor-header">
+      <Link to="/" className="home-button">
+        <img src="/image/house.png" alt="Home" className="home-icon" />
+      </Link>
+    </div>
     <div className="container mt-4">
-      <div className="card">
-        <div className="card-header bg-primary text-white">
-          <h2>{storyId ? 'Edit Story' : 'Create Story'}</h2>
-        </div>
-        <div className="card-body">
-        {isReadOnly && !localStorage.getItem('userId') && (
-            <div className="alert alert-warning">
-              <strong>Note:</strong> Only logged-in users can edit this story.
+      <div className="row">
+         <div className="col-md-8">
+         <div className="cardstory mb-4">
+            <div className="card-header">
+              <h2>{storyId ? 'Edit Story' : 'Create Story'}</h2>
             </div>
+            <div className="card-body">
+        {isReadOnly && !localStorage.getItem('userId') && (
+            <div className="warning">
+              <strong>Note:</strong> Only logged-in users can edit this story!!!
+            </div>
+           
         )}
         {story.isLocked && (
-        <div className="alert alert-warning">
+        <div className="alert-warning">
           This story is currently edited by other user.
         </div>
         )}
-          <form onSubmit={handleSave}>
-            <div className="mb-3">
-              <label className="form-label">Title</label>
-              <input
+            <form onSubmit={handleSave}>
+              <div className="mb-3">
+                <label className="form-label">Title</label>
+                <input
                 type="text"
                 className="form-control"
                 name="title"
@@ -190,10 +198,11 @@ const StoryEditor = () => {
                 onChange={handleInputChange}
                 required
                 disabled={isReadOnly}
-              />
-            </div>
-
-            <div className="mb-3">
+                />
+              </div>
+            
+            
+              <div className="mb-4">
               <label className="form-label">Content</label>
               <textarea
                 className="form-control"
@@ -204,69 +213,25 @@ const StoryEditor = () => {
                 required
                 disabled={isReadOnly}
               />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label">Tags</label>
-              <div className="input-group mb-2">
-                <input
-                  type="text"
-                  className="form-control"
-                  value={newTag}
-                  onChange={(e) => setNewTag(e.target.value)}
-                  placeholder="Add a tag"
-                />
+              </div>
+              <div className="d-flex justify-content-between mt-4 gap-4">
                 <button 
-                  className="btn btn-outline-secondary" 
-                  type="button"
-                  onClick={addTag}
-                >
-                  Add Tag
-                </button>
-              </div>
-              <div className="d-flex flex-wrap gap-2">
-                {story.tags.map(tag => (
-                  <span key={tag} className="badge bg-primary">
-                    {tag}
-                    <button 
-                      type="button" 
-                      className="btn-close btn-close-white ms-2"
-                      style={{ fontSize: '0.5rem' }}
-                      onClick={() => removeTag(tag)}
-                      aria-label="Remove"
-                    />
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Snapshots section - outside the form but part of the same card */}
-            <div className="mb-4">
-              <h4>Story Snapshots</h4>
-              <SnapshotManager 
-                storyId={storyId}
-                snapshots={story.snapshots}
-                onSnapshotsChange={handleSnapshotsUpdate}
-              />
-            </div>
-
-            <div className="d-flex justify-content-between mt-4">
-            <button 
                   type="submit" 
-                  className="btn btn-primary"
-                  disabled={isReadOnly}
+                  className="custom-save-btn"
+                  isabled={isReadOnly}
                 >
                   Save Story
                 </button>
-              <button 
-                type="button" 
-                className="btn btn-outline-secondary"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
+
+                <button 
+                  type="button" 
+                  className="custom-cancel-btn"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
               <div>
-                {storyId && !isReadOnly && (
+                {storyId && !isReadOnly &&(
                   <Link 
                     to={`/stories/${storyId}/userlogs`}
                     className="btn btn-outline-info me-2"
@@ -275,10 +240,66 @@ const StoryEditor = () => {
                   </Link>
                 )}
               </div>
-            </div>
-          </form>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+        </div>
+        <div className="col-md-4 d-flex flex-column gap-2">
+          <div className="card1 p-3">
+                <h3>Tags</h3>
+                <div className="input-group mb-2">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={newTag}
+                    onChange={(e) => setNewTag(e.target.value)}
+                    placeholder="Add a tag"
+                  />
+                  </div>
+                  <button 
+                    className="custom-tag-btn" 
+                    type="button"
+                    onClick={addTag}
+                  >
+                    Add Tag
+                  </button>
+                </div>
+                <div className="d-flex flex-wrap gap-2">
+                  {story.tags.map(tag => (
+                    <span key={tag} className="badge bg-primary">
+                      {tag}
+                      <button 
+                        type="button" 
+                        className="btn-close btn-close-white ms-2"
+                        style={{ fontSize: '0.5rem' }}
+                        onClick={() => removeTag(tag)}
+                        aria-label="Remove"
+                      />
+                    </span>
+                  ))}
+                </div>
+              
+            
+              
+
+            {/* Snapshots section - outside the form but part of the same card */}
+            <div className="card2 p-3">
+              <h4>Story Snapshots</h4>
+              <SnapshotManager 
+                storyId={storyId}
+                snapshots={story.snapshots}
+                onSnapshotsChange={handleSnapshotsUpdate}
+              />
+              
+            </div>
+            
+
+            
+            </div>
+            
+        </div>
+    </div>
     </div>
   );
 };
