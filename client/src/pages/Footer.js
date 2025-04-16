@@ -10,10 +10,6 @@ const Footer = () => {
         <Link to="/about" className="footer-link">About</Link>
         <Link to="/contact" className="footer-link">Contact</Link>
         <Link to="/terms" className="footer-link">Terms</Link>
-        <p>isygfdiyeffhcgdkjhfkyfsIYDGOSAUFUODHCJLXMCNMX
-          ;JHDLJFSKHYGFYHGDSKHGVKHDSGVKHDSKJZGLODUHVUDH
-          BVLKHGDSIYFGIDY
-        </p>
       </div>
     </footer>
   );

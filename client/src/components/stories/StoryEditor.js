@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { createStory, getStory, lockStory, updateStory, unlockStory} from '../../api/storyApi';
 import SnapshotManager from './SnapshotManager';
+//import { lockStory, unlockStory } from '../../api/storyApi';
+
 
 const StoryEditor = () => {
   const { id: storyId } = useParams();
