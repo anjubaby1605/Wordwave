@@ -38,7 +38,7 @@ const StoryEditor = () => {
           });
     
           if (!isUserLoggedIn) {
-            setIsReadOnly(true); // Force read-only for guests
+            setIsReadOnly(true); // Force read-only for guest users
           } else if (response.isLocked && response.lockedBy !== currentUserId) {
             setIsReadOnly(true);
           } else {
@@ -59,6 +59,10 @@ const StoryEditor = () => {
       }
     };
     fetchStory();
+
+    const handleBeforeUnload = () => {
+      unlockStory(storyId);
+    };
   
     const handleUnlockStory = async () => {
       const token = localStorage.getItem('token');
@@ -75,13 +79,10 @@ const StoryEditor = () => {
       }
     };
     
-    
-  
-    window.addEventListener('beforeunload', handleUnlockStory);
+    window.removeEventListener('beforeunload', handleBeforeUnload);
   
     return () => {
-      handleUnlockStory();
-      window.removeEventListener('beforeunload', handleUnlockStory);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   
   }, [storyId, navigate]);
@@ -90,7 +91,6 @@ const StoryEditor = () => {
   const handleSave = async (e) => {
     e.preventDefault();
     
-    // Prepare the data to match backend expectations
     const storyData = {
       title: story.title,
       content: story.content,
@@ -108,6 +108,7 @@ const StoryEditor = () => {
       console.log("Story data-", storyData);
       if (storyId) {
         await updateStory(storyId, storyData);
+        await unlockStory(storyId);
         navigate(`/stories/${storyId}`);
       } else {
         await createStory(storyData,token);
@@ -120,13 +121,11 @@ const StoryEditor = () => {
   };
   const handleCancel = async () => {
     if (storyId) {
-      await fetch(`/api/stories/${storyId}/unlock`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
-        }
-      });
+      try {
+        await unlockStory(storyId);
+      } catch (err) {
+        console.warn('Failed to unlock on cancel:', err);
+      }
       navigate(`/stories/${storyId}`);
     } else {
       navigate('/stories');
@@ -174,6 +173,11 @@ const StoryEditor = () => {
             <div className="alert alert-warning">
               <strong>Note:</strong> Only logged-in users can edit this story.
             </div>
+        )}
+        {story.isLocked && (
+        <div className="alert alert-warning">
+          This story is currently edited by other user.
+        </div>
         )}
           <form onSubmit={handleSave}>
             <div className="mb-3">

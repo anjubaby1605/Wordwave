@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const SnapshotManager = ({ storyId, snapshots = [], onSnapshotsChange }) => {
   const [newSnapshot, setNewSnapshot] = useState({ 
@@ -8,7 +9,16 @@ const SnapshotManager = ({ storyId, snapshots = [], onSnapshotsChange }) => {
     image: null,
     preview: null // for frontend preview only
   });
-
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+  
+  // Create axios instance with default config
+  const api = axios.create({
+    baseURL: API_URL,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    withCredentials: true // Include if using cookies
+  });
   // Handle form field changes
   const updateSnapshotField = (field, value) => {
     setNewSnapshot({ ...newSnapshot, [field]: value });
@@ -40,21 +50,44 @@ const SnapshotManager = ({ storyId, snapshots = [], onSnapshotsChange }) => {
     });
   };
 
-  const handleAddSnapshot = (e) => {
-    e.preventDefault();
-    if (!newSnapshot.title.trim()) return;
+const handleAddSnapshot = async (e) => {
+  e.preventDefault();
 
-    const snapshotToAdd = {
-      ...newSnapshot,
-      id: Date.now()
-    };
+  if (!newSnapshot.title.trim()) return;
 
-    const updatedSnapshots = [...snapshots, snapshotToAdd];
-    onSnapshotsChange(updatedSnapshots);
+  try {
+    const formData = new FormData();
+    formData.append('title', newSnapshot.title);
+    formData.append('content', newSnapshot.content);
+    formData.append('order', snapshots.length); // auto-increment order
+    formData.append('links', JSON.stringify(newSnapshot.links || []));
+
+    if (newSnapshot.image) {
+      formData.append('image', newSnapshot.image);
+    }
+
+    const response = await api.post(`${API_URL}/stories/${storyId}/snapshots`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+    );
+
+    const createdSnapshot = response.data;
+
+    // Add to UI
+    onSnapshotsChange([...snapshots, createdSnapshot]);
 
     // Reset form
     setNewSnapshot({ title: '', content: '', links: [], image: null, preview: null });
-  };
+  } catch (err) {
+    console.error('Failed to add snapshot:', err);
+    alert(err.response?.data?.error || 'Snapshot creation failed');
+  }
+};
+
 
   const handleDeleteSnapshot = (idToDelete) => {
     const updatedSnapshots = snapshots.filter(
@@ -143,13 +176,18 @@ const SnapshotManager = ({ storyId, snapshots = [], onSnapshotsChange }) => {
               <h5>{snapshot.title}</h5>
               <p>{snapshot.content}</p>
 
-              {snapshot.preview && (
+              {(snapshot.image || snapshot.preview) && (
                 <img
-                  src={snapshot.preview}
+                  src={
+                    snapshot.preview
+                      ? snapshot.preview
+                      : `http://localhost:5000${snapshot.image}`
+                  }
                   alt="Snapshot"
                   style={{ maxWidth: '100%', maxHeight: 200 }}
                 />
               )}
+
 
               {snapshot.links?.map((link, idx) => (
                 <div key={idx}>

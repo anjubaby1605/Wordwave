@@ -3,13 +3,15 @@ const router = express.Router();
 const snapshotController = require('../controllers/snapshotController');
 const { authenticate } = require('../middlewares/auth');
 
-router.post('/stories/:storyId/snapshots', 
-  //authenticate,
-  snapshotController.addSnapshot
-);
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // You can customize storage
 
-router.put('/stories/:storyId/snapshots/:snapshotId',
-  //authenticate,
+router.post('/stories/:storyId/snapshots', upload.single('image'), snapshotController.addSnapshot);
+
+
+router.put(
+  '/stories/:storyId/snapshots/:snapshotId',
+  upload.single('image'),
   snapshotController.updateSnapshot
 );
 
