@@ -74,6 +74,8 @@ const SignIn = () => {
 
         // Store the token in localStorage
         localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.data.user._id);
+
         
         // Redirect to home page or dashboard
         navigate('/');
@@ -89,44 +91,70 @@ const SignIn = () => {
   };
 
   return (
-    <div className="auth-container">
-      <h2>Sign In</h2>
-      {errors.form && <div className="error-message">{errors.form}</div>}
-      
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleInputChange}
-            placeholder="Enter username"
-          />
-          {errors.username && <span className="error">{errors.username}</span>}
+    <div className="container">
+      <div className="row justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <div className="col-md-8">
+          <div className="card flex-row shadow-lg rounded p-4">
+            
+            {/* Left: Form Section */}
+            <div className="col-md-6 px-3">
+              <h2>Log in to Word Wave</h2>
+              <p className="form-intro">
+            Welcome back! Sign in to continue exploring and sharing your creativity.
+              </p>
+              {errors.form && <div className="error-message">{errors.form}</div>}
+
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="username">Username</label>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleInputChange}
+                    placeholder="Enter username"
+                    className="form-control"
+                  />
+                  {errors.username && <span className="error">{errors.username}</span>}
+                </div>
+
+                <div className="form-group mt-3">
+                  <label htmlFor="password">Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    placeholder="Enter password"
+                    className="form-control"
+                  />
+                  {errors.password && <span className="error">{errors.password}</span>}
+                </div>
+
+                <button type="submit" disabled={isSubmitting} className="btn btn-primary mt-4 w-100">
+                  {isSubmitting ? 'Signing In...' : 'Sign In'}
+                </button>
+              </form>
+
+              <div className="auth-footer mt-3">
+                Don’t have an account? <Link to="/signup">Sign Up</Link>
+              </div>
+            </div>
+
+            {/* Right: Image Section */}
+            <div className="col-md-6 d-flex align-items-center justify-content-center">
+              <img 
+                src="/image/39879138_8767132.jpg" 
+                alt="Illustration" 
+                className="img-fluid rounded"
+                style={{ maxHeight: '300px' }}
+              />
+            </div>
+
+          </div>
         </div>
-        
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            placeholder="Enter password"
-          />
-          {errors.password && <span className="error">{errors.password}</span>}
-        </div>
-        
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Signing In...' : 'Sign In'}
-        </button>
-      </form>
-      
-      <div className="auth-footer">
-        Don't have an account? <Link to="/signup">Sign Up</Link>
       </div>
     </div>
   );

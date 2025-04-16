@@ -9,6 +9,13 @@ import StoryPage from './pages/StoryPage';
 import { configureStore } from '@reduxjs/toolkit';
 import UserActivity from './components/logs/UserActivity';
 import StoryEditor from './components/stories/StoryEditor';
+import Home from './pages/home.js';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Terms from './pages/Terms';
+import Logout from './components/Logout';
+import MyStories from './pages/MyStories'; // Adjust the path if needed
+
 
 
 
@@ -28,14 +35,23 @@ const App = () => {
       <Router>
         <div className="App">
           <Routes>
-            <Route path="/" element={<h1>Welcome to Wordwave</h1>} />
+            
 
-            <Route path='/signup' element={<SignUp />}/>
-            <Route path='/signin' element={<SignIn />}/>
+           
+          <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/terms" element={<Terms />} />
+            
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path='/logout' element={<Logout />}/>
+            <Route path="/mystories" element={<MyStories />} />
 
             <Route path="/story-page" element={<StoryPage />} />
             <Route path="/stories" element={<StoryList />} />
             <Route path="/stories/:id" element={<StoryDetail />} />
+            <Route path="/stories/public/:id" element={<StoryDetail />} />
             <Route path="/stories/:id/edit" element={<StoryEditor />} />
             <Route path="/stories/:id/userlogs" element={<UserActivity />} />
           </Routes>

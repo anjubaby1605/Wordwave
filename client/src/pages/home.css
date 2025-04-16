@@ -1,0 +1,290 @@
+
+/* Ensure full-screen layout from root */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #b2d5ff;
+}
+
+
+/* Fullscreen and flex layout for sticky footer */
+.register-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  
+}
+.hero-section {
+  width: 100%;
+  min-height: 100vh;
+  background-image: url('img.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.main-content {
+  flex: 1;
+  padding: 20px; 
+  background-color: #b2d5ff;
+  padding-bottom: 4rem;
+  
+  /* Optional: light background after hero */
+}
+
+@media (max-width: 768px) {
+  .register-container {
+    background-size: cover; /* or contain if you want full image visible */
+    background-attachment: scroll; /* Disable parallax on mobile */
+  }
+}
+
+
+/* Main content should grow to fill space */
+
+/* --- Existing styles --- */
+.register-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #bcd6f4;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 70px; /* Adjust this to your desired size */
+  margin-right: 15px;
+}
+
+
+
+.app-name {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #280085;
+}
+
+.tagline-container {
+  max-width: 600px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+
+.tagline-container h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #280085;
+}
+
+.tagline-container p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.create-story-btn {
+  padding: 12px 30px;
+  font-size: 1rem;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.create-story-btn:hover {
+  background-color: #fcd5ce;
+}
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 100vh; /* still full screen */
+    background-position: center top; /* shift image focus */
+    padding-top: 80px; /* space for header */
+  }
+
+  .tagline-container {
+    padding: 20px;
+  }
+
+  .tagline-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .tagline-container p {
+    font-size: 1rem;
+  }
+
+  .create-story-btn {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+
+/* Full-width 2-column layout for sample stories */
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 2 equal columns */
+  gap: 40px 20px; /* 40px vertical space, 20px horizontal space */
+  margin-top: 40px;
+}
+
+
+.story-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  height: auto; /* Ensures natural height based on content */
+}
+
+.story-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.story-card h3 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  color: #280085;
+}
+
+.preview {
+  color: #666;
+  margin: 10px 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tag {
+  background-color: #93c6ef;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  color: #000000;
+}
+
+/* User icon and dropdown */
+.user-menu {
+  position: relative;
+}
+
+.user-icon {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  z-index: 1000;
+  background-color: rgba(0, 9, 109, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.dropdown-item {
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #ffffff;
+  transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive Grid Layout */
+@media (max-width: 1024px) {
+  .stories-grid {
+    grid-template-columns: repeat(1, 1fr); /* 1 column on medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .stories-grid {
+    grid-template-columns: 1fr; /* 1 column on small screens */
+  }
+}
+/* Add these styles to your home.css */
+.read-more-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.read-more-link:hover {
+  text-decoration: underline;
+}
+
+.story-page {
+  padding: 20px;
+}
+
+.story-page .back-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.story-page .back-link:hover {
+  text-decoration: underline;
+}
+
+
+.card-green {
+  background-color: #fff9c4; /* light green */
+}
+
+.card-blue {
+  background-color: #bfe5fc; /* light blue */
+}
+
+.card-yellow {
+  background-color: #d3fdd4; /* light yellow */
+}
+
+.card-pink {
+  background-color: #ffded8; /* light pink */
+}

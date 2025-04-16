@@ -12,7 +12,7 @@ const StoryDetail = () => {
     const fetchStory = async () => {
       try {
         const response = await getStory(id);
-        console.log('API Response:', response); // Debug log
+        //console.log('API Response:', response); // Debug log
         
         // Directly use the response since it's the story object
         if (response) {
@@ -36,34 +36,70 @@ const StoryDetail = () => {
   if (!story) return <div className="alert alert-warning">Story not found</div>;
 
   return (
-    <div className="container mt-4">
-      <div className="card">
-        <div className="card-header">
-          <h2>{story.title}</h2>
-          <div className="d-flex flex-wrap gap-2 mt-2">
-            {story.tags?.map(tag => (
-              <span key={tag} className="badge bg-primary">
-                {tag}
-              </span>
-            ))}
+    <div
+    className="story-detail-wrapper"
+    style={{
+      position: 'relative',
+      minHeight: '100vh',
+      overflow: 'hidden'
+    }}
+  >
+    {/* ✅ Background Image with blur */}
+    <div
+      style={{
+        backgroundImage: `url('/image/bg.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        filter: 'blur(4px)', // Light blur
+        position: 'absolute',
+        inset: 0,
+        zIndex: 0
+      }}
+    />
+  
+      {/* Foreground Content */}
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        {/* Story card */}
+        <div className="story-card-small p-4">
+          <div className="row">
+            <div className="col-md-6">
+              <h2>{story.title}</h2>
+              <div className="d-flex flex-wrap gap-2 mt-2">
+                {story.tags?.map(tag => (
+                  <span key={tag} className="badge bg-primary">{tag}</span>
+                ))}
+              </div>
+              <pre className="mt-3" style={{ whiteSpace: 'pre-wrap' }}>
+                {story.content}
+              </pre>
+            </div>
           </div>
         </div>
-        <div className="card-body">
-          <pre className="card-text" style={{ whiteSpace: 'pre-wrap' }}>
-            {story.content}
-          </pre>
-          <div className="mt-3">
-            <Link to={`/stories/${id}/edit`} className="btn btn-warning me-2">
-              Edit Story
-            </Link>
-            <Link to="/stories" className="btn btn-secondary">
-              Back to Stories
-            </Link>
-          </div>
+  
+        {/* Buttons */}
+        <div
+  className="mt-4 d-flex justify-content-center align-items-center gap-3"
+  style={{ marginBottom: '3rem' }}
+>
+          <Link to={`/stories/${id}/edit`} className="custom-edit-btn">
+            Edit Story
+          </Link>
+          <Link to="/stories" className="custom-back-btn">
+            Back to Stories
+          </Link>
+          <Link to="/" title="Home">
+            <img
+              src="/image/house.png"
+              alt="Home"
+              style={{ width: '36px', height: '36px', objectFit: 'contain' }}
+            />
+          </Link>
         </div>
       </div>
     </div>
   );
+  
 };
 
 export default StoryDetail;

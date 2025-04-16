@@ -4,17 +4,17 @@ const snapshotController = require('../controllers/snapshotController');
 const { authenticate } = require('../middlewares/auth');
 
 router.post('/stories/:storyId/snapshots', 
-  authenticate,
+  //authenticate,
   snapshotController.addSnapshot
 );
 
 router.put('/stories/:storyId/snapshots/:snapshotId',
-  authenticate,
+  //authenticate,
   snapshotController.updateSnapshot
 );
 
 router.delete('/stories/:storyId/snapshots/:snapshotId',
-  authenticate,
+  //authenticate,
   snapshotController.deleteSnapshot
 );
 

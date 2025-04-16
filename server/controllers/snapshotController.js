@@ -1,27 +1,34 @@
+const Story = require('../models/Story');
+const Snapshot = require('../models/Snapshot');
+
 exports.addSnapshot = async (req, res) => {
-    try {
-      const { storyId } = req.params;
-      const { text, order, links } = req.body;
-  
-      const story = await Story.findByIdAndUpdate(
-        storyId,
-        {
-          $push: {
-            snapshots: {
-              text,
-              order,
-              links: links || []
-            }
+  try {
+    const { storyId } = req.params;
+    const { title, content, order, links } = req.body;
+    const image = req.file ? `/uploads/${req.file.filename}` : null;
+
+    const story = await Story.findByIdAndUpdate(
+      storyId,
+      {
+        $push: {
+          snapshots: {
+            title,
+            content,
+            order,
+            links: links ? JSON.parse(links) : [],
+            image
           }
-        },
-        { new: true, runValidators: true }
-      );
-  
-      res.status(201).json(story.snapshots);
-    } catch (err) {
-      res.status(400).json({ error: err.message });
-    }
-  };
+        }
+      },
+      { new: true, runValidators: true }
+    );
+
+    res.status(201).json(story.snapshots);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
   
   exports.updateSnapshot = async (req, res) => {
     try {
@@ -37,8 +44,8 @@ exports.addSnapshot = async (req, res) => {
           $set: {
             'snapshots.$.text': update.text,
             'snapshots.$.order': update.order,
-            'snappackage.$.links': update.links
-          }
+            'snapshots.$.links': update.links
+          }          
         },
         { new: true, runValidators: true }
       );
@@ -53,18 +60,20 @@ exports.addSnapshot = async (req, res) => {
     try {
       const { storyId, snapshotId } = req.params;
   
-      const story = await Story.findByIdAndUpdate(
+      // 1. Delete the snapshot document
+      await Snapshot.findByIdAndDelete(snapshotId);
+  
+      // 2. Pull the snapshot reference from the story
+      await Story.findByIdAndUpdate(
         storyId,
-        {
-          $pull: {
-            snapshots: { _id: snapshotId }
-          }
-        },
+        { $pull: { snapshots: snapshotId } },
         { new: true }
       );
   
-      res.json(story.snapshots);
+      res.status(200).json({ message: 'Snapshot deleted successfully' });
     } catch (err) {
-      res.status(400).json({ error: err.message });
+      console.error('Error deleting snapshot:', err);
+      res.status(500).json({ error: 'Failed to delete snapshot' });
     }
   };
+  
