@@ -1,18 +1,25 @@
 /* src/components/Form.css */
-.auth-container {
-  max-width: 400px;
+/*.container {
+  position: relative;
+  width: 850px;
+  height: 550px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
+  background: #e4c9c9;
+  border-radius: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+}*/
 
-.auth-container h2 {
+/*.auth-container h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: #1564e3; 
+}*/
+
+.card{
+  background-color: #ffffff;
 }
+
 
 .form-group {
   margin-bottom: 1.5rem;
@@ -22,7 +29,7 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #555;
+  color: #000000;
 }
 
 .form-group input {

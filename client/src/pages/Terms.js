@@ -1,8 +1,14 @@
 // src/pages/Terms.js
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Terms = () => (
   <div className="static-page p-6 max-w-3xl mx-auto text-gray-800">
+     <div className="text-right mb-4">
+          <Link to="/" className="text-blue-600 hover:underline font-semibold">
+            🏠 Home
+          </Link>
+        </div>
     <h2 className="text-3xl font-bold mb-4">Terms & Conditions</h2>
     <p className="mb-4">
       Welcome to WordWave! By using our platform, you agree to the following terms and conditions. Please read them carefully.

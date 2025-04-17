@@ -1,8 +1,14 @@
 // src/pages/Contact.js
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Contact = () => (
   <div className="static-page p-6 max-w-3xl mx-auto text-gray-800">
+    <div className="text-right mb-4">
+      <Link to="/" className="text-blue-600 hover:underline font-semibold">
+        🏠 Home
+      </Link>
+    </div>
     <h2 className="text-3xl font-bold mb-4">Contact Us</h2>
     <p className="mb-4">
       We'd love to hear from you! Whether you have feedback, questions, or partnership inquiries, feel free to reach out.
