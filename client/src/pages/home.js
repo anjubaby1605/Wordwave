@@ -5,7 +5,6 @@ import userIcon from './usericon.png';
 import './home.css';
 import Footer from './Footer.js';
 import { getStories } from '../api/storyApi.js';
-import axios from 'axios';
 
 const Home = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -21,20 +20,11 @@ const Home = () => {
   useEffect(() => {
     const fetchStories = async () => {
       try {
-        if (isLoggedIn) {
-          // If logged in, fetch the user's stories
-          const token = localStorage.getItem('token');
-          const res = await axios.get('/api/stories/user/mystories', {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setStories(res.data);
-        } else {
-          // Fetch all stories for non-logged in users or guest view
           const response = await getStories();
           const shuffled = shuffleArray(response); // shuffle stories
           setStories(shuffled);
         }
-      } catch (error) {
+      catch (error) {
         console.error('Failed to fetch stories:', error);
       }
     };
@@ -139,15 +129,14 @@ const StoryCard = ({ story, index }) => {
   return (
     <div className={`story-card ${colorClass}`}>
       <h3>{story.title}</h3>
-      <p className="preview">{story.preview}</p>
-
-      <Link to={storyRoute} className="read-more-link">Read More</Link>
-
+      <p className="preview">{story.content.substring(0, 100)}</p>
       <div className="tags">
         {story.tags && story.tags.map(tag => (
           <span key={tag} className="tag">{tag}</span>
         ))}
       </div>
+
+      <Link to={storyRoute} className="read-more-link">Read More</Link>
     </div>
   );
 };

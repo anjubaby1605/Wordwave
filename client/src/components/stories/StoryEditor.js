@@ -269,10 +269,6 @@ const StoryEditor = () => {
                   ))}
                 </div>
               
-            
-              
-
-            {/* Snapshots section - outside the form but part of the same card */}
             <div className="card2 p-3">
               <h4>Story Snapshots</h4>
               <SnapshotManager 
@@ -280,7 +276,6 @@ const StoryEditor = () => {
                 snapshots={story.snapshots}
                 onSnapshotsChange={handleSnapshotsUpdate}
               />
-              
             </div>
             
 

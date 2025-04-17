@@ -19,7 +19,7 @@ exports.addSnapshot = async (req, res) => {
       story: storyId,
       title,
       content,
-      order: nextOrder, // ⚠️ no duplicates now
+      order: nextOrder,
       links: links ? JSON.parse(links) : [],
       image
     });
