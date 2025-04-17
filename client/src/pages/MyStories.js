@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './MyStories.css';
 import { getMyStories } from '../api/storyApi.js';
-import homeIcon from './house.png';
+import house from './house.png';
+
 
 const MyStories = () => {
   const [myStories, setMyStories] = useState([]);
@@ -32,12 +33,13 @@ const MyStories = () => {
 
   return (
     <div className="my-stories">
+       <Link to="/" className="home-button">
+        <img src={house} alt="Home" className="home-icon" />
+        </Link>
       <div className="my-stories-container">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2 className="mb-0">My Stories</h2>
-        <Link to="/" className="home-button">
-        <img src={homeIcon} alt="Home" className="home-icon" />
-        </Link>
+       
 
       </div>
 
@@ -45,22 +47,26 @@ const MyStories = () => {
           <p>Loading...</p>
         ) : (
           <div className="stories-grid">
-            {myStories.length > 0 ? (
-              myStories.map(story => (
-                <div key={story._id} className="story-card">
+          {myStories.length > 0 ? (
+            myStories.map((story, index) => {
+              const colorClass = `card-color-${index % 4}`;
+              return (
+                <div key={story._id} className={`story-card ${colorClass}`}>
                   <h3>{story.title}</h3>
                   <p className="preview">{story.preview}</p>
                   <Link to={`/stories/${story._id}`} className="read-more-link">
                     Read More
                   </Link>
                 </div>
-              ))
-            ) : (
-              <p>No stories found.</p>
-            )}
+              );
+            })
+          ) : (
+            <p>No stories found.</p>
+          )}
           </div>
         )}
       </div>
+      <img src='image\img1.jpg' alt="Decor" className="corner-image" />
     </div>
   );
 };

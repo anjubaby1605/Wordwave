@@ -105,7 +105,7 @@ const Home = () => {
         </div>
       </div>
         <main className="main-content">
-          <div className="stories-grid">
+          <div className="story-grid">
             {stories.length > 0 ? (
               stories.slice(0, 6).map((story,index) => (
                 <StoryCard key={story._id} story={story} index={index} />
@@ -114,8 +114,10 @@ const Home = () => {
               <p>Loading stories...</p>
             )}
           </div>
-          <div className="read-more-container">
-          <Link to="/stories" className="blue-btn read-more-btn">Read More Stories</Link>
+          <div className="read-more-container" style={{ display: 'flex', justifyContent: 'center' , padding:'20px'}}>
+            <Link to="/stories" className="blue-btn read-more-btn">
+              Read More Stories
+            </Link>
           </div>
         </main>
 

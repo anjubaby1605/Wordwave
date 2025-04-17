@@ -143,7 +143,7 @@ html, body, #root {
 }
 
 /* Full-width 2-column layout for sample stories */
-.stories-grid {
+.story-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 2 equal columns */
   gap: 40px 20px; /* 40px vertical space, 20px horizontal space */
