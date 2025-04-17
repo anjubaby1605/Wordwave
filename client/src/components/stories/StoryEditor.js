@@ -37,7 +37,7 @@ const StoryEditor = () => {
           });
     
           if (!isUserLoggedIn) {
-            setIsReadOnly(true); // Force read-only for guest users
+            setIsReadOnly(true);
           } else if (response.isLocked && response.lockedBy !== currentUserId) {
             setIsReadOnly(true);
           } else {
@@ -62,21 +62,6 @@ const StoryEditor = () => {
     const handleBeforeUnload = () => {
       unlockStory(storyId);
     };
-  
-    const handleUnlockStory = async () => {
-      const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('userId');
-    
-      if (!token || !userId || !story?.isLocked || story.lockedBy !== userId) {
-        return;
-      }
-    
-      try {
-        await unlockStory(storyId); 
-      } catch (err) {
-        console.warn('Failed to unlock the story:', err);
-      }
-    };
     
     window.removeEventListener('beforeunload', handleBeforeUnload);
   
@@ -89,6 +74,11 @@ const StoryEditor = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Please log in to create a story.');
+      return;
+    }
     
     const storyData = {
       title: story.title,
@@ -103,8 +93,7 @@ const StoryEditor = () => {
     };
   
     try {
-      const token = localStorage.getItem('token');
-      console.log("Story data-", storyData);
+      //console.log("Story data-", storyData);
       if (storyId) {
         await updateStory(storyId, storyData);
         await unlockStory(storyId);
@@ -182,7 +171,7 @@ const StoryEditor = () => {
             </div>
            
         )}
-        {story.isLocked && (
+        {story.isLocked && localStorage.getItem('userId') && (
         <div className="alert-warning">
           This story is currently edited by other user.
         </div>
@@ -218,7 +207,7 @@ const StoryEditor = () => {
                 <button 
                   type="submit" 
                   className="custom-save-btn"
-                  isabled={isReadOnly}
+                  disabled={isReadOnly}
                 >
                   Save Story
                 </button>
